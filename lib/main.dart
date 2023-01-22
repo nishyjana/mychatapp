@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mychatapp/Reference/refernceCode.dart';
 import 'package:mychatapp/chat_screen.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.cyan, 
         useMaterial3: true,
       ),
-      home: const ChatScreen(),
+      home: const MyHomePage(title: 'My Bosom Buddy',),
     );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mychatapp/chatMessage.dart';
+import 'package:mychatapp/chat_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,10 +34,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void _navigateToNextScreen(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const ChatScreen()));
   }
 
   @override
@@ -47,22 +48,21 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          // ignore: prefer_const_literals_to_create_immutables
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              'Welcome to your Bosom Buddy app',
             ),
-           
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            const Text('By Nishy'),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        onPressed: () {
+          _navigateToNextScreen(context);
+        },
+        tooltip: 'Lets chat',
+        child: const Icon(Icons.message_rounded),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
