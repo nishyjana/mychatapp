@@ -36,7 +36,7 @@ class _ChatScreenState extends State<ChatScreen> {
     super.dispose();
   }
 
-  void _sendMessage() async {
+  void _sendMessage() {
     if (_controller.text.isEmpty) return;
     ChatMessage message = ChatMessage(text: _controller.text, sender: "user");
 
@@ -50,8 +50,9 @@ class _ChatScreenState extends State<ChatScreen> {
     final request = CompleteReq(
         prompt: message.text, model: kTranslateModelV3, max_tokens: 300); var apiKey = dotenv.get('API_URL', fallback: 'API_URL not found');
 
-    _streamSubscription = await chatGPT!
+    _streamSubscription = chatGPT!
         .onCompleteStream(request: request)
+        .asBroadcastStream()
         .listen((response) {
       ChatMessage botMessage =
           ChatMessage(text: response!.choices[0].text, sender: 'Bestie');
