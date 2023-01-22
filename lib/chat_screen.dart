@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mychatapp/ChatMessage.dart';
 import 'package:mychatapp/threedots.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -34,6 +35,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _sendMessage() {
+    if (_controller.text.isEmpty) return;
     ChatMessage message = ChatMessage(text: _controller.text, sender: "user");
 
     setState(() {
@@ -45,15 +47,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
     final request = CompleteReq(
         prompt: message.text, model: kTranslateModelV3, max_tokens: 300);
+    var apiKey = dotenv.get('API_URL', fallback: 'API_URL not found');
 
     _streamSubscription = chatGPT!
-        .builder("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",
-            orgId: "")
+        .builder(apiKey, orgId: "")
         .onCompleteStream(request: request)
         .listen((response) {
-      Vx.log(response!.choices[0].text);
       ChatMessage botMessage =
-          ChatMessage(text: response.choices[0].text, sender: 'Bestie');
+          ChatMessage(text: response!.choices[0].text, sender: 'Bestie');
 
       setState(() {
         _messages.insert(0, botMessage);

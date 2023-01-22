@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mychatapp/Reference/refernceCode.dart';
 import 'package:mychatapp/chat_screen.dart';
 
 void main() {
+  dotenv.load();
   runApp(const MyApp());
 }
 
@@ -16,11 +18,12 @@ class MyApp extends StatelessWidget {
       title: 'MyBestieApp with chatGPT',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.cyan, 
+        primarySwatch: Colors.cyan,
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'My Bosom Buddy',),
+      home: const MyHomePage(
+        title: 'My Bosom Buddy',
+      ),
     );
   }
 }
-
