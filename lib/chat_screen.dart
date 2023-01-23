@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<ChatMessage> _messages = [];
   ChatGPT? chatGPT;
+  var apiKey = dotenv.get('API_URL', fallback: 'API_URL not found');
 
   StreamSubscription? _streamSubscription;
   bool _isTyping = false;
@@ -25,9 +27,11 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    var apiKey = dotenv.get('API_URL', fallback: 'API_URL not found');
     
-    chatGPT = ChatGPT.instance.builder(apiKey);
+
+    chatGPT = ChatGPT.instance.builder(
+        apiKey,
+        baseOption: HttpSetup(receiveTimeout: 10000));
   }
 
   @override
@@ -47,20 +51,24 @@ class _ChatScreenState extends State<ChatScreen> {
 
     _controller.clear();
 
-    final request = CompleteReq(
-        prompt: message.text, model: kTranslateModelV3, max_tokens: 300); var apiKey = dotenv.get('API_URL', fallback: 'API_URL not found');
-
-    _streamSubscription = chatGPT!
-        .onCompleteStream(request: request)
-        .asBroadcastStream()
-        .listen((response) {
+    void _handleMessage(response) {
       ChatMessage botMessage =
           ChatMessage(text: response!.choices[0].text, sender: 'Bestie');
-
       setState(() {
         _messages.insert(0, botMessage);
         _isTyping = false;
       });
+    }
+
+    final request = CompleteReq(
+        prompt: message.text, model: kTranslateModelV3, max_tokens: 300);
+
+    _streamSubscription = chatGPT!
+        .builder(apiKey)
+        .onCompleteStream(request: request)
+        .asBroadcastStream()
+        .listen((response) {
+      _handleMessage(response);
     });
   }
 
@@ -70,7 +78,6 @@ class _ChatScreenState extends State<ChatScreen> {
         // ignore: unnecessary_const
         Expanded(
             child: TextField(
-          onSubmitted: (value) => _sendMessage(),
           controller: _controller,
           decoration:
               const InputDecoration.collapsed(hintText: "Send a message"),
