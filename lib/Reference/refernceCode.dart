@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:mychatapp/chatMessage.dart';
+import 'package:http/http.dart' as http;
+import 'package:mychatapp/Modal/news_modal.dart';
 import 'package:mychatapp/chat_screen.dart';
+import '../news.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,29 +37,59 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   void _navigateToNextScreen(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const ChatScreen()));
+  }
+
+  Future<News> _fetchNews() async {
+    final response = await http
+        .get(Uri.parse('https://newsapi.org/v2/everything?q=Apple&from=2023-01-24&sortBy=popularity&apiKey=e2f70d4225c74a50be318638952e7779'));
+    inspect(response);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return News.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
+  late Future<News> news;
+
+  @override
+  void initState() {
+    super.initState();
+    news = _fetchNews();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          // ignore: prefer_const_literals_to_create_immutables
-          children: <Widget>[
-            const Text(
-              'Welcome to your Bosom Buddy app',
-            ),
-            const Text('By Nishy'),
-          ],
+        child: FutureBuilder<News>(
+          future: news,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              inspect(snapshot.data?.articles);
+              return NewsWidget(
+                articles: snapshot.data?.articles,
+              );
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+
+            // By default, show a loading spinner.
+            return const CircularProgressIndicator();
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -62,8 +97,8 @@ class _MyHomePageState extends State<MyHomePage> {
           _navigateToNextScreen(context);
         },
         tooltip: 'Lets chat',
-        child: const Icon(Icons.message_rounded),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        child: const Icon(Icons.message_outlined),
+      ),
     );
   }
 }

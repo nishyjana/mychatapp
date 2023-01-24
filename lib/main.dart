@@ -16,10 +16,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MyBestieApp with chatGPT',
+      color: Colors.deepPurpleAccent,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.cyan,
-        useMaterial3: true,
+        primarySwatch: Colors.yellow,
+        appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(color: Colors.black),
+          color: Color.fromARGB(255, 218, 166, 34), //<-- SEE HERE
+        ),
       ),
       home: const MyHomePage(
         title: 'My Bosom Buddy',

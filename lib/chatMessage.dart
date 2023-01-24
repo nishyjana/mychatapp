@@ -16,7 +16,8 @@ class ChatMessage extends StatelessWidget {
             child: sender == 'user'
                 ? Text(text)
                     .text
-                    .subtitle1(context)
+                    .subtitle2(context)
+                    .bold
                     .make()
                     .box
                     .rounded
@@ -24,7 +25,7 @@ class ChatMessage extends StatelessWidget {
                     .py12
                     .px12
                     .height(50)
-                    .color(sender == "user" ? Vx.cyan400 : Vx.green400)
+                    .color(Color.fromARGB(255, 233, 185, 62)!)
                     .make()
                     .p12()
                 : Text(text)
@@ -35,13 +36,13 @@ class ChatMessage extends StatelessWidget {
                     .rounded
                     .alignCenterLeft
                     .px12
-                    .color(sender == "user" ? Vx.cyan400 : Vx.green400)
+                    .color(Color.fromARGB(255, 117, 179, 103))
                     .make()
-                    .p12()
+                    .p20()
             // text.trim().text.bodyText1(context).make().px8().py2(),
             ),
       
-        if (sender != 'user') Icon(Icons.smart_toy_rounded).iconSize(50).iconColor(Colors.green)
+        if (sender != 'user') Icon(Icons.smart_toy_rounded).iconSize(50).iconColor(Color.fromARGB(255, 36, 123, 16))
       ],
     );
   }

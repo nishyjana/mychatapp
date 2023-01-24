@@ -42,6 +42,9 @@ dependencies:
       url: https://github.com/iampawan/Flutter-ChatGPT.git
   velocity_x: ^3.6.0
   flutter_dotenv: ^5.0.2
+  http: ^0.13.5
+  json_serializable: ^6.6.0
+  swipe_cards: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:
