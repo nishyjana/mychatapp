@@ -1,6 +1,4 @@
-import 'dart:developer';
-import 'dart:io';
-
+import 'package:link_preview_generator/link_preview_generator.dart';
 import 'package:flutter/material.dart';
 
 class NewsWidget extends StatelessWidget {
@@ -10,17 +8,23 @@ class NewsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // MatchEngine? _matchEngine;
-    // List<SwipeItem> _swipeItems = [];
-    // _matchEngine = MatchEngine(swipeItems: _swipeItems);
     return ListView.builder(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         itemBuilder: (context, index) {
-          return ListTile(
-              leading: index <= 99 ? Icon(Icons.album_rounded): null,
-              title: index <= 99 ? Text(articles[index].title): null,
-              subtitle: index <= 99 ? Text(articles[index].url): null,
-            );
+          return Container(
+            padding: const EdgeInsets.all(10.0),
+            child: LinkPreviewGenerator(
+              bodyMaxLines: 5,
+              link: index <= 99 ? articles[index]?.url : '',
+              linkPreviewStyle: LinkPreviewStyle.large,
+              showGraphic: true,
+              bodyTextOverflow: TextOverflow.fade,
+              showDomain: true,
+              onTap: () {
+                
+              },
+            ),
+          );
         });
   }
 }
