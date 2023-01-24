@@ -92,7 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("My Bosom Buddy")),
-      backgroundColor: Color.fromARGB(255, 119, 144, 235),
+      backgroundColor: Colors.blue[400],
       body: Container(
         // ignore: prefer_const_constructors
         decoration: BoxDecoration(

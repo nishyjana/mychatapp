@@ -49,8 +49,9 @@ class _MyHomePageState extends State<MyHomePage> {
     String formattedDate = formatter.format(now);
     var url = 'https://newsapi.org/v2/everything?' +
           'q=apple&' +
-          'from=2023-01-24&' +
-          'pageSize=90'+
+         // 'from=2023-01-24&'+
+          'from='+formattedDate+'&' +
+          'pageSize=1000'+
           'sortBy=popularity&' +
           'apiKey=e2f70d4225c74a50be318638952e7779';
     final response = await http
@@ -81,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(
           widget.title,
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: Center(

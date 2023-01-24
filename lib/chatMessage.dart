@@ -25,7 +25,7 @@ class ChatMessage extends StatelessWidget {
                     .py12
                     .px12
                     .height(50)
-                    .color(Color.fromARGB(255, 233, 185, 62)!)
+                    .color(Colors.blue[400]!)
                     .make()
                     .p12()
                 : Text(text)
