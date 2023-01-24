@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:mychatapp/Modal/news_modal.dart';
 import 'package:mychatapp/chat_screen.dart';
 import '../news.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,8 +44,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<News> _fetchNews() async {
+     var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    var url = 'https://newsapi.org/v2/everything?' +
+          'q=apple&' +
+          'from=2023-01-24&' +
+          'pageSize=90'+
+          'sortBy=popularity&' +
+          'apiKey=e2f70d4225c74a50be318638952e7779';
     final response = await http
-        .get(Uri.parse('https://newsapi.org/v2/everything?q=Apple&from=2023-01-24&sortBy=popularity&apiKey=e2f70d4225c74a50be318638952e7779'));
+        .get(Uri.parse(url));
     inspect(response);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,

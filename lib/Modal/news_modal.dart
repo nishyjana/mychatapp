@@ -28,15 +28,18 @@ class News {
 
 class Articles {
   final String title;
+  final String url;
 
   const Articles({
     required this.title,
+    required this.url,
   });
 
   factory Articles.fromJson(Map<String, dynamic> json) {
-    return Articles(title: json['title']);
+    return Articles(title: json['title'],url: json['url']);
   }
   Map<String, dynamic> toJson() => {
-        "title": title
+        "title": title,
+        "url": url
     };
 }

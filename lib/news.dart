@@ -1,8 +1,7 @@
 import 'dart:developer';
-import 'dart:ffi';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:swipe_cards/swipe_cards.dart';
 
 class NewsWidget extends StatelessWidget {
   const NewsWidget({super.key, required this.articles});
@@ -17,11 +16,10 @@ class NewsWidget extends StatelessWidget {
     return ListView.builder(
         padding: const EdgeInsets.all(16.0),
         itemBuilder: (context, index) {
-          inspect(articles[index]);
-           return ListTile(
-              leading: Icon(Icons.album),
-              title:  Text(articles[index].title),
-              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+          return ListTile(
+              leading: index <= 99 ? Icon(Icons.album_rounded): null,
+              title: index <= 99 ? Text(articles[index].title): null,
+              subtitle: index <= 99 ? Text(articles[index].url): null,
             );
         });
   }
