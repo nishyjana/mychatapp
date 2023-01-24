@@ -34,9 +34,7 @@ class ChatMessage extends StatelessWidget {
                     .box
                     .rounded
                     .alignCenterLeft
-                    .py20
                     .px12
-                    .height(100)
                     .color(sender == "user" ? Vx.cyan400 : Vx.green400)
                     .make()
                     .p12()
