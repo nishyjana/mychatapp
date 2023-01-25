@@ -72,37 +72,39 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.title,
-          style: TextStyle(color: Colors.white),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            widget.title,
+            style: TextStyle(color: Colors.white),
+          ),
         ),
-      ),
-      body: Center(
-        child: FutureBuilder<News>(
-          future: news,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              inspect(snapshot.data?.articles);
-              return NewsWidget(
-                articles: snapshot.data?.articles,
-              );
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-
-            // By default, show a loading spinner.
-            return const CircularProgressIndicator();
+        body: Center(
+          child: FutureBuilder<News>(
+            future: news,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                inspect(snapshot.data?.articles);
+                return NewsWidget(
+                  articles: snapshot.data?.articles,
+                );
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+    
+              // By default, show a loading spinner.
+              return const CircularProgressIndicator();
+            },
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _navigateToNextScreen(context);
           },
+          tooltip: 'Lets chat',
+          child: const Icon(Icons.message_outlined),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _navigateToNextScreen(context);
-        },
-        tooltip: 'Lets chat',
-        child: const Icon(Icons.message_outlined),
       ),
     );
   }
